@@ -1,0 +1,1 @@
+Start-Process PowerShell -ArgumentList C:\CleanUp.ps1

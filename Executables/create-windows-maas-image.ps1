@@ -17,7 +17,7 @@ Param(
     [string]$WimFilePath = "D:\Sources\install.wim", 
 
     # The wim file path is the installation image on the Windows ISO
-    [string]$WindowsImagePath = "C:\images\my-windows-image.raw.tgz",
+    [string]$WindowsImagePath = "C:\images\my-windows-image.raw.img",
 
     # Virtual Switch on Hyper-V
     # Make sure the switch exists and it allows Internet access if updates are to be installed
@@ -50,16 +50,16 @@ try {
 #$wimFilePath = "D:\Sources\install.wim"
 
 # VirtIO ISO contains all the synthetic drivers for the KVM hypervisor
-$virtIOISOPath = "C:\images\virtio.iso"
+#$virtIOISOPath = "C:\images\virtio.iso"
 # Note(avladu): Do not use stable 0.1.126 version because of this bug https://github.com/crobinso/virtio-win-pkg-scripts/issues/10
 # Note (atira): Here https://fedorapeople.org/groups/virt/virtio-win/CHANGELOG you can see the changelog for the VirtIO drivers
-$virtIODownloadLink = "https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/stable-virtio/virtio-win.iso"
+#$virtIODownloadLink = "https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/stable-virtio/virtio-win.iso"
 
 # Download the VirtIO drivers ISO from Fedora, If the ISO does not exists.
-if(!(Test-Path $virtIOISOPath)) {
-    Write-Host "Downloading VirtIO"
-    (New-Object System.Net.WebClient).DownloadFile($virtIODownloadLink, $virtIOISOPath)
-}
+#if(!(Test-Path $virtIOISOPath)) {
+#    Write-Host "Downloading VirtIO"
+#    (New-Object System.Net.WebClient).DownloadFile($virtIODownloadLink, $virtIOISOPath)
+#}
 
 # Extra drivers path contains the drivers for the baremetal nodes
 # Examples: Chelsio NIC Drivers, Mellanox NIC drivers, LSI SAS drivers, etc.
@@ -89,7 +89,7 @@ Set-IniFileValue -Path $configFilePath -Section "Default" -Key "image_type" -Val
 Set-IniFileValue -Path $configFilePath -Section "Default" -Key "install_maas_hooks" -Value "True"
 Set-IniFileValue -Path $configFilePath -Section "Default" -Key "enable_administrator_account" -Value "True"
 Set-IniFileValue -Path $configFilePath -Section "Default" -Key "enable_custom_wallpaper" -Value "False"
-Set-IniFileValue -Path $configFilePath -Section "Default" -Key "disk_layout" -Value "UEFI"
+Set-IniFileValue -Path $configFilePath -Section "Default" -Key "disk_layout" -Value "BIOS"
 Set-IniFileValue -Path $configFilePath -Section "vm" -Key "cpu_count" -Value 2
 Set-IniFileValue -Path $configFilePath -Section "vm" -Key "ram_size" -Value (3GB)
 Set-IniFileValue -Path $configFilePath -Section "vm" -Key "disk_size" -Value (30GB)
